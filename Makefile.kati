@@ -15,21 +15,21 @@
 GO_SRCS:=$(wildcard *.go)
 
 ifeq (${GOPATH},)
-KATI_GOPATH:=$$(pwd)/out
+KATI_GOPATH:=$$(pwd)/out/bin
 else
-KATI_GOPATH:=$$(pwd)/out:$${GOPATH}
+KATI_GOPATH:=$$(pwd)/out/bin:$${GOPATH}
 endif
 
 kati: go_src_stamp
-	-rm -f out/bin/kati
-	GOPATH=${KATI_GOPATH} go install -ldflags "-X github.com/google/kati.gitVersion=$(shell git rev-parse HEAD)" github.com/google/kati/cmd/kati
+	-rm -f out/bin
+	GOBIN=${KATI_GOPATH} go install -ldflags "-X github.com/zchee/gokati.gitVersion=$(shell git rev-parse HEAD)" github.com/zchee/gokati/cmd/kati
 	cp out/bin/kati $@
 
 go_src_stamp: $(GO_SRCS) $(wildcard cmd/*/*.go)
 	-rm -rf out/src out/pkg
-	mkdir -p out/src/github.com/google/kati
-	cp -a $(GO_SRCS) cmd out/src/github.com/google/kati
-	GOPATH=${KATI_GOPATH} go get github.com/google/kati/cmd/kati
+	mkdir -p out/src/github.com/zchee/gokati
+	cp -a $(GO_SRCS) cmd out/src/github.com/zchee/gokati
+	GOPATH=${KATI_GOPATH} go get github.com/zchee/gokati/cmd/kati
 	touch $@
 
 go_test: $(GO_SRCS)

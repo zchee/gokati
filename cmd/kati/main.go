@@ -27,7 +27,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/google/kati"
+
+	kati "github.com/zchee/gokati"
 )
 
 const shellDateTimeformat = time.RFC3339
